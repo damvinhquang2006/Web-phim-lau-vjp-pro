@@ -1,11 +1,576 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RoPhimFake</title>
+    <title>Web Phim Đơn Giản</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ========== RESET CSS & CÀI ĐẶT CHUNG ========== */
+        /* Reset CSS để đảm bảo giao diện hiển thị đồng nhất trên các trình duyệt */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* Thiết lập màu nền và màu chữ mặc định cho toàn bộ trang */
+        body {
+            background-color: #0f0f1e;
+            color: #f0f0f0;
+            line-height: 1.6;
+        }
+        
+        /* Đảm bảo hình ảnh không vượt quá kích thước container */
+        img {
+            max-width: 100%;
+            display: block;
+        }
+        
+        /* ========== HEADER ========== */
+        /* Phần đầu trang với logo và menu điều hướng */
+        header {
+            background-color: #141429;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Logo trang web */
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #e50914;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            font-size: 2rem;
+        }
+        
+        /* Menu điều hướng */
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: #f0f0f0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+        
+        /* Hiệu ứng khi di chuột vào menu */
+        nav a:hover {
+            color: #e50914;
+            background-color: rgba(229, 9, 20, 0.1);
+        }
+        
+        /* Nút đăng nhập */
+        .login-btn {
+            background-color: #e50914;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .login-btn:hover {
+            background-color: #ff0a16;
+        }
+        
+        /* ========== HERO SECTION ========== */
+        /* Phần banner lớn giới thiệu phim nổi bật */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1925&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            margin-bottom: 3rem;
+        }
+        
+        /* Nội dung trong phần hero */
+        .hero-content {
+            max-width: 600px;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #ddd;
+        }
+        
+        /* Nút xem phim */
+        .watch-btn {
+            background-color: #e50914;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        
+        .watch-btn:hover {
+            background-color: #ff0a16;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(229, 9, 20, 0.3);
+        }
+        
+        /* ========== PHIM ĐỀ XUẤT ========== */
+        /* Phần danh sách phim đề xuất */
+        .movie-section {
+            padding: 0 5% 4rem;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #fff;
+            border-left: 4px solid #e50914;
+            padding-left: 1rem;
+        }
+        
+        /* Container cho các thẻ phim */
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 2rem;
+        }
+        
+        /* Thẻ phim riêng lẻ */
+        .movie-card {
+            background-color: #1a1a2e;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        /* Hiệu ứng khi di chuột vào thẻ phim */
+        .movie-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Hình ảnh phim */
+        .movie-poster {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        
+        /* Thông tin phim */
+        .movie-info {
+            padding: 1.2rem;
+        }
+        
+        .movie-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+        
+        .movie-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Nút xem chi tiết */
+        .details-btn {
+            background-color: transparent;
+            color: #e50914;
+            border: 1px solid #e50914;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        
+        .details-btn:hover {
+            background-color: #e50914;
+            color: white;
+        }
+        
+        /* ========== FOOTER ========== */
+        /* Phần chân trang */
+        footer {
+            background-color: #141429;
+            padding: 3rem 5% 2rem;
+            margin-top: 2rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column h3 {
+            color: #fff;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-column a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column a:hover {
+            color: #e50914;
+        }
+        
+        /* Phần bản quyền */
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        /* ========== RESPONSIVE DESIGN ========== */
+        /* Thiết kế cho màn hình nhỏ (tablet) */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .movie-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 2rem;
+            }
+        }
+        
+        /* Thiết kế cho màn hình rất nhỏ (điện thoại) */
+        @media (max-width: 480px) {
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero {
+                height: 60vh;
+                padding: 0 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .movie-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .movie-poster {
+                height: 220px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>My first Hello World</h1>
+    <!-- ========== HEADER ========== -->
+    <!-- Phần đầu trang chứa logo, menu điều hướng và nút đăng nhập -->
+    <header>
+        <!-- Logo trang web -->
+        <a href="#" class="logo">
+            <i class="fas fa-film"></i>
+            <span>MovieHub</span>
+        </a>
+        
+        <!-- Menu điều hướng chính -->
+        <nav>
+            <ul>
+                <!-- Các liên kết điều hướng đến các phần của trang -->
+                <li><a href="#"><i class="fas fa-home"></i> Trang chủ</a></li>
+                <li><a href="#"><i class="fas fa-fire"></i> Phim hot</a></li>
+                <li><a href="#"><i class="fas fa-tv"></i> Phim lẻ</a></li>
+                <li><a href="#"><i class="fas fa-users"></i> Phim bộ</a></li>
+                <li><a href="#"><i class="fas fa-search"></i> Tìm kiếm</a></li>
+            </ul>
+        </nav>
+        
+        <!-- Nút đăng nhập -->
+        <button class="login-btn">
+            <i class="fas fa-user"></i> Đăng nhập
+        </button>
+    </header>
+
+    <!-- ========== HERO SECTION ========== -->
+    <!-- Phần banner lớn giới thiệu phim nổi bật -->
+    <section class="hero">
+        <div class="hero-content">
+            <!-- Tiêu đề phim nổi bật -->
+            <h1>AVATAR: DÒNG CHẢY CỦA NƯỚC</h1>
+            
+            <!-- Mô tả ngắn về phim -->
+            <p>Jake Sully và gia đình thực hiện một cuộc hành trình đến lãnh thổ của các bộ tộc Pandora, gặp gỡ những sinh vật biển kỳ lạ và khám phá những mối đe dọa mới.</p>
+            
+            <!-- Nút để xem phim -->
+            <button class="watch-btn">
+                <i class="fas fa-play"></i> Xem ngay
+            </button>
+        </div>
+    </section>
+
+    <!-- ========== PHIM ĐỀ XUẤT ========== -->
+    <!-- Phần danh sách phim đề xuất cho người dùng -->
+    <section class="movie-section">
+        <!-- Tiêu đề phần phim đề xuất -->
+        <h2 class="section-title">Phim đề xuất cho bạn</h2>
+        
+        <!-- Lưới chứa các thẻ phim -->
+        <div class="movie-grid">
+            <!-- Thẻ phim 1 -->
+            <div class="movie-card">
+                <!-- Hình ảnh poster phim -->
+                <img src="https://images.unsplash.com/photo-1531259683007-016a7b628fc3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80" 
+                     alt="Spider-Man: No Way Home" class="movie-poster">
+                
+                <!-- Thông tin phim -->
+                <div class="movie-info">
+                    <!-- Tên phim -->
+                    <h3 class="movie-title">Spider-Man: No Way Home</h3>
+                    
+                    <!-- Thông tin bổ sung (năm phát hành và thể loại) -->
+                    <div class="movie-meta">
+                        <span>2021</span>
+                        <span>Hành động</span>
+                    </div>
+                    
+                    <!-- Nút xem chi tiết -->
+                    <button class="details-btn">Xem chi tiết</button>
+                </div>
+            </div>
+            
+            <!-- Thẻ phim 2 -->
+            <div class="movie-card">
+                <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1791&q=80" 
+                     alt="The Batman" class="movie-poster">
+                <div class="movie-info">
+                    <h3 class="movie-title">The Batman</h3>
+                    <div class="movie-meta">
+                        <span>2022</span>
+                        <span>Hành động</span>
+                    </div>
+                    <button class="details-btn">Xem chi tiết</button>
+                </div>
+            </div>
+            
+            <!-- Thẻ phim 3 -->
+            <div class="movie-card">
+                <img src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                     alt="Top Gun: Maverick" class="movie-poster">
+                <div class="movie-info">
+                    <h3 class="movie-title">Top Gun: Maverick</h3>
+                    <div class="movie-meta">
+                        <span>2022</span>
+                        <span>Phiêu lưu</span>
+                    </div>
+                    <button class="details-btn">Xem chi tiết</button>
+                </div>
+            </div>
+            
+            <!-- Thẻ phim 4 -->
+            <div class="movie-card">
+                <img src="https://images.unsplash.com/photo-1489599809516-9827b6d1cf13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80" 
+                     alt="Doctor Strange" class="movie-poster">
+                <div class="movie-info">
+                    <h3 class="movie-title">Doctor Strange 2</h3>
+                    <div class="movie-meta">
+                        <span>2022</span>
+                        <span>Viễn tưởng</span>
+                    </div>
+                    <button class="details-btn">Xem chi tiết</button>
+                </div>
+            </div>
+            
+            <!-- Thẻ phim 5 -->
+            <div class="movie-card">
+                <img src="https://images.unsplash.com/photo-1551029506-0807df4e2031?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2034&q=80" 
+                     alt="Black Panther" class="movie-poster">
+                <div class="movie-info">
+                    <h3 class="movie-title">Black Panther 2</h3>
+                    <div class="movie-meta">
+                        <span>2022</span>
+                        <span>Hành động</span>
+                    </div>
+                    <button class="details-btn">Xem chi tiết</button>
+                </div>
+            </div>
+            
+            <!-- Thẻ phim 6 -->
+            <div class="movie-card">
+                <img src="https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2076&q=80" 
+                     alt="Jurassic World" class="movie-poster">
+                <div class="movie-info">
+                    <h3 class="movie-title">Jurassic World 3</h3>
+                    <div class="movie-meta">
+                        <span>2022</span>
+                        <span>Kinh dị</span>
+                    </div>
+                    <button class="details-btn">Xem chi tiết</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <!-- Phần chân trang với các liên kết và thông tin bổ sung -->
+    <footer>
+        <div class="footer-content">
+            <!-- Cột 1: Giới thiệu -->
+            <div class="footer-column">
+                <h3>Về MovieHub</h3>
+                <ul>
+                    <li><a href="#">Giới thiệu</a></li>
+                    <li><a href="#">Điều khoản sử dụng</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Quy chế hoạt động</a></li>
+                </ul>
+            </div>
+            
+            <!-- Cột 2: Hỗ trợ -->
+            <div class="footer-column">
+                <h3>Hỗ trợ</h3>
+                <ul>
+                    <li><a href="#">Trung tâm trợ giúp</a></li>
+                    <li><a href="#">Liên hệ</a></li>
+                    <li><a href="#">Hướng dẫn sử dụng</a></li>
+                    <li><a href="#">Câu hỏi thường gặp</a></li>
+                </ul>
+            </div>
+            
+            <!-- Cột 3: Kết nối -->
+            <div class="footer-column">
+                <h3>Kết nối với chúng tôi</h3>
+                <ul>
+                    <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+                    <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                    <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                    <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Phần bản quyền -->
+        <div class="copyright">
+            <p>&copy; 2023 MovieHub. Tất cả các quyền được bảo lưu.</p>
+        </div>
+    </footer>
+
+    <script>
+        // ========== JAVASCRIPT ĐƠN GIẢN ==========
+        // Thêm tương tác cơ bản cho các nút trên trang
+        
+        // Lắng nghe sự kiện khi trang đã tải xong
+        document.addEventListener('DOMContentLoaded', function() {
+            // Lấy tất cả các nút "Xem chi tiết"
+            const detailButtons = document.querySelectorAll('.details-btn');
+            
+            // Thêm sự kiện click cho từng nút "Xem chi tiết"
+            detailButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Lấy tên phim từ thẻ h3 trong cùng thẻ phim
+                    const movieTitle = this.closest('.movie-info').querySelector('.movie-title').textContent;
+                    alert(`Bạn đã chọn xem chi tiết phim: "${movieTitle}"`);
+                });
+            });
+            
+            // Thêm sự kiện cho nút "Xem ngay" trong phần hero
+            const watchButton = document.querySelector('.watch-btn');
+            watchButton.addEventListener('click', function() {
+                alert('Bắt đầu phát "Avatar: Dòng chảy của nước"!');
+            });
+            
+            // Thêm sự kiện cho nút đăng nhập
+            const loginButton = document.querySelector('.login-btn');
+            loginButton.addEventListener('click', function() {
+                alert('Chức năng đăng nhập sẽ được triển khai sau!');
+            });
+            
+            // Thêm hiệu ứng cuộn mượt mà cho các liên kết menu
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Chỉ xử lý các liên kết không có href="#"
+                    if (this.getAttribute('href') !== '#') {
+                        e.preventDefault();
+                        // Lấy phần tử đích từ thuộc tính href
+                        const targetId = this.getAttribute('href');
+                        const targetElement = document.querySelector(targetId);
+                        
+                        if (targetElement) {
+                            // Cuộn mượt đến phần tử đích
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 80,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
