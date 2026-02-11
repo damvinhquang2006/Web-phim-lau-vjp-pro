@@ -1,6 +1,9 @@
 function loadComponent(id, file) {
+    // 1. Gửi request lấy file
     fetch(file)
+        // 2. Chuyển response thành text
         .then(response => response.text())
+        // 3. Khi có text thì truyền vào HTML
         .then(data => {
             document.getElementById(id).innerHTML = data;
         })
