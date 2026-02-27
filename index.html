@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Phim Đơn Giản</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<<<<<<< HEAD:index.html
     <link rel="stylesheet" href="FrontEnd/CSS/BaseUI.css">
     <style>
         /* ========== RESET CSS & CÀI ĐẶT CHUNG ========== */
@@ -329,35 +331,19 @@
             }
         }
     </style>
+=======
+    
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/header.css">
+    <link rel="stylesheet" href="./css/banner.css">
+    <link rel="stylesheet" href="./css/recommendFilm.css">
+    <link rel="stylesheet" href="./css/footer.css">
+>>>>>>> 55d4f9ba1a323459a4366ac74ab4960735d5747a:FrontEnd/index.html
 </head>
-<body>
-    <!-- ========== HEADER ========== -->
-    <!-- Phần đầu trang chứa logo, menu điều hướng và nút đăng nhập -->
-    <header>
-        <!-- Logo trang web -->
-        <a href="#" class="logo">
-            <i class="fas fa-film"></i>
-            <span>MovieHub</span>
-        </a>
-        
-        <!-- Menu điều hướng chính -->
-        <nav>
-            <ul>
-                <!-- Các liên kết điều hướng đến các phần của trang -->
-                <li><a href="#"><i class="fas fa-home"></i> Trang chủ</a></li>
-                <li><a href="#"><i class="fas fa-fire"></i> Phim hot</a></li>
-                <li><a href="#"><i class="fas fa-tv"></i> Phim lẻ</a></li>
-                <li><a href="#"><i class="fas fa-users"></i> Phim bộ</a></li>
-                <li><a href="#"><i class="fas fa-search"></i> Tìm kiếm</a></li>
-            </ul>
-        </nav>
-        
-        <!-- Nút đăng nhập -->
-        <button class="login-btn">
-            <i class="fas fa-user"></i> Đăng nhập
-        </button>
-    </header>
 
+<body>
+
+<<<<<<< HEAD:index.html
     <!-- ========== HERO SECTION ========== -->
     <!-- Phần banner lớn giới thiệu phim nổi bật -->
     <section class="hero">
@@ -494,102 +480,23 @@
             </div>
         </div>
     </section>
+=======
+    <!-- Header -->
+    <div id="header"></div>
 
-    <!-- ========== FOOTER ========== -->
-    <!-- Phần chân trang với các liên kết và thông tin bổ sung -->
-    <footer>
-        <div class="footer-content">
-            <!-- Cột 1: Giới thiệu -->
-            <div class="footer-column">
-                <h3>Về MovieHub</h3>
-                <ul>
-                    <li><a href="#">Giới thiệu</a></li>
-                    <li><a href="#">Điều khoản sử dụng</a></li>
-                    <li><a href="#">Chính sách bảo mật</a></li>
-                    <li><a href="#">Quy chế hoạt động</a></li>
-                </ul>
-            </div>
-            
-            <!-- Cột 2: Hỗ trợ -->
-            <div class="footer-column">
-                <h3>Hỗ trợ</h3>
-                <ul>
-                    <li><a href="#">Trung tâm trợ giúp</a></li>
-                    <li><a href="#">Liên hệ</a></li>
-                    <li><a href="#">Hướng dẫn sử dụng</a></li>
-                    <li><a href="#">Câu hỏi thường gặp</a></li>
-                </ul>
-            </div>
-            
-            <!-- Cột 3: Kết nối -->
-            <div class="footer-column">
-                <h3>Kết nối với chúng tôi</h3>
-                <ul>
-                    <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
-                    <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
-                    <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
-                    <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
-                </ul>
-            </div>
-        </div>
-        
-        <!-- Phần bản quyền -->
-        <div class="copyright">
-            <p>&copy; 2023 MovieHub. Tất cả các quyền được bảo lưu.</p>
-        </div>
-    </footer>
+    <!-- Hero banner -->
+    <div id="banner"></div>
+>>>>>>> 55d4f9ba1a323459a4366ac74ab4960735d5747a:FrontEnd/index.html
 
-    <script>
-        // ========== JAVASCRIPT ĐƠN GIẢN ==========
-        // Thêm tương tác cơ bản cho các nút trên trang
-        
-        // Lắng nghe sự kiện khi trang đã tải xong
-        document.addEventListener('DOMContentLoaded', function() {
-            // Lấy tất cả các nút "Xem chi tiết"
-            const detailButtons = document.querySelectorAll('.details-btn');
-            
-            // Thêm sự kiện click cho từng nút "Xem chi tiết"
-            detailButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Lấy tên phim từ thẻ h3 trong cùng thẻ phim
-                    const movieTitle = this.closest('.movie-info').querySelector('.movie-title').textContent;
-                    alert(`Bạn đã chọn xem chi tiết phim: "${movieTitle}"`);
-                });
-            });
-            
-            // Thêm sự kiện cho nút "Xem ngay" trong phần hero
-            const watchButton = document.querySelector('.watch-btn');
-            watchButton.addEventListener('click', function() {
-                alert('Bắt đầu phát "Avatar: Dòng chảy của nước"!');
-            });
-            
-            // Thêm sự kiện cho nút đăng nhập
-            const loginButton = document.querySelector('.login-btn');
-            loginButton.addEventListener('click', function() {
-                alert('Chức năng đăng nhập sẽ được triển khai sau!');
-            });
-            
-            // Thêm hiệu ứng cuộn mượt mà cho các liên kết menu
-            document.querySelectorAll('nav a').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    // Chỉ xử lý các liên kết không có href="#"
-                    if (this.getAttribute('href') !== '#') {
-                        e.preventDefault();
-                        // Lấy phần tử đích từ thuộc tính href
-                        const targetId = this.getAttribute('href');
-                        const targetElement = document.querySelector(targetId);
-                        
-                        if (targetElement) {
-                            // Cuộn mượt đến phần tử đích
-                            window.scrollTo({
-                                top: targetElement.offsetTop - 80,
-                                behavior: 'smooth'
-                            });
-                        }
-                    }
-                });
-            });
-        });
-    </script>
+    <!-- Recommend Film -->
+    <div id="recommend_film"></div>
+
+    <!-- Footer -->
+    <div id="footer"></div>
+
+    <script src="./js/script.js"></script>
+    <script src="./js/login.js"></script>
+    <script src="js/register.js"></script>
 </body>
+
 </html>
